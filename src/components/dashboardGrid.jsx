@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config'
 // import { Carousel } from 'react-responsive-carousel'
 // import 'react-responsive-carousel/lib/styles/carousel.min.css'
-bookArray = []
 export default function DashboardGrid() {
   const booksCollectionRef = collection(db, 'books')
   const [books, setBooks] = useState([])
