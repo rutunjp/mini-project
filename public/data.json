@@ -1,0 +1,84 @@
+{
+  "books": [
+    {
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "publisher": "J. B. Lippincott & Co.",
+      "year_published": 1960,
+      "isbn": "9780061120084",
+      "price": 10.99,
+      "language": "English",
+      "genre": ["Fiction", "Classics"]
+    },
+    {
+      "title": "1984",
+      "author": "George Orwell",
+      "publisher": "Secker & Warburg",
+      "year_published": 1949,
+      "isbn": "9780451524935",
+      "price": 9.99,
+      "language": "English",
+      "genre": ["Fiction", "Dystopian"]
+    },
+    {
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "publisher": "Charles Scribner's Sons",
+      "year_published": 1925,
+      "isbn": "9780743273565",
+      "price": 12.99,
+      "language": "English",
+      "genre": ["Fiction", "Classics"]
+    },
+    {
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "publisher": "T. Egerton",
+      "year_published": 1813,
+      "isbn": "9780486284736",
+      "price": 8.99,
+      "language": "English",
+      "genre": ["Fiction", "Romance"]
+    },
+    {
+      "title": "The Lord of the Rings",
+      "author": "J.R.R. Tolkien",
+      "publisher": "George Allen & Unwin",
+      "year_published": 1954,
+      "isbn": "9780544273443",
+      "price": 22.99,
+      "language": "English",
+      "genre": ["Fiction", "Fantasy"]
+    },
+    {
+      "title": "One Hundred Years of Solitude",
+      "author": "Gabriel Garcia Marquez",
+      "publisher": "Harper & Row",
+      "year_published": 1967,
+      "isbn": "9780060883287",
+      "price": 11.99,
+      "language": "Spanish",
+      "genre": ["Fiction", "Magical Realism"]
+    },
+    {
+      "title": "The Catcher in the Rye",
+      "author": "J.D. Salinger",
+      "publisher": "Little, Brown and Company",
+      "year_published": 1951,
+      "isbn": "9780316769488",
+      "price": 7.99,
+      "language": "English",
+      "genre": ["Fiction", "Coming-of-Age"]
+    },
+    {
+      "title": "The Chronicles of Narnia",
+      "author": "C.S. Lewis",
+      "publisher": "Geoffrey Bles",
+      "year_published": 1950,
+      "isbn": "9780064471190",
+      "price": 18.99,
+      "language": "English",
+      "genre": ["Fiction", "Fantasy"]
+    }
+  ]
+}
