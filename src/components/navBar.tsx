@@ -44,6 +44,7 @@ export default function Navbar() {
   const router = useRouter()
   const logout = () => {
     signOut(auth)
+    router.push('/signin')
   }
 
   const { isOpen, onToggle } = useDisclosure()
@@ -96,7 +97,7 @@ export default function Navbar() {
           spacing={6}
         >
           {auth.currentUser ? (
-            <Menu>
+            <Menu placement={'top'}>
               <MenuButton
                 as={Button}
                 rounded={'full'}
@@ -113,7 +114,7 @@ export default function Navbar() {
                 <br />
                 <Center>
                   <Avatar
-                    size={'2xl'}
+                    size={'lg'}
                     src={'https://avatars.dicebear.com/api/male/username.svg'}
                   />
                 </Center>
@@ -197,7 +198,7 @@ const DesktopNav = () => {
     <Stack direction={'row'} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
-          <Popover trigger={'hover'} placement={'bottom-start'}>
+          <Popover trigger={'hover'} placement={'bottom-start'} z-index={1}>
             <PopoverTrigger>
               <Link
                 p={2}
@@ -350,41 +351,11 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: 'Favourites',
-    children: [
-      {
-        label: 'Explore Design Work',
-        subLabel: 'Trending Design to inspire you',
-        href: '#',
-      },
-      {
-        label: 'New & Noteworthy',
-        subLabel: 'Up-and-coming Designers',
-        href: '#',
-      },
-    ],
+    label: 'Library Store',
+    href: 'libraryStore',
   },
   {
-    label: 'My Collection',
-    children: [
-      {
-        label: 'Job Board',
-        subLabel: 'Find your dream design job',
-        href: '#',
-      },
-      {
-        label: 'Freelance Projects',
-        subLabel: 'An exclusive list for contract work',
-        href: '#',
-      },
-    ],
-  },
-  {
-    label: 'Learn Design',
-    href: '#',
-  },
-  {
-    label: 'Hire Designers',
+    label: 'Dashboard',
     href: '#',
   },
 ]

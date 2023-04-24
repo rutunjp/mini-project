@@ -92,7 +92,10 @@ export default function SignIn() {
                 _hover={{
                   bg: 'blue.500',
                 }}
-                onClick={() => signInWithEmailAndPassword(email, password)}
+                onClick={(e) => {
+                  e.preventDefault()
+                  signInWithEmailAndPassword(email, password)
+                }}
               >
                 Sign in
               </Button>

@@ -39,7 +39,7 @@ export default function UserProfileEdit() {
 
   const router = useRouter()
   if (!auth.currentUser) {
-    return <p>GIGIGI</p>
+    return <p>Signed Out</p>
   } else if (auth.currentUser) {
     return (
       <Flex

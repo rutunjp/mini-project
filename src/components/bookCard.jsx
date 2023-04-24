@@ -5,8 +5,23 @@ import {
   Heading,
   Badge,
   Text,
+  Modal,
+  ModalOverlay,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  SliderThumb,
+  Select,
   Stack,
+  Checkbox,
   Button,
+  HStack,
   Image,
 } from '@chakra-ui/react'
 import { useState } from 'react'
@@ -16,12 +31,14 @@ const IMAGE =
 
 export default function BookCard(props) {
   const [isFav, setFav] = useState(false)
-  const badges = props.genre.map((genre) => (
-    <Badge m={1} key={genre} fontWeight={'normal'}>
-      {' '}
-      {genre}
-    </Badge>
-  ))
+  // const badges = props.genre.map((genre) => (
+  //   <Badge m={1} key={genre} fontWeight={'normal'}>
+  //     {' '}
+  //     {genre}
+  //   </Badge>
+  // ))
+  function updateBookData(e) {}
+  const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <Center py={12}>
       <Box
@@ -34,14 +51,64 @@ export default function BookCard(props) {
         rounded={'lg'}
         pos={'relative'}
         zIndex={1}
+        onClick={onOpen}
       >
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>
+              <HStack align={'space-between'}>
+                <Heading as="h3" size="md">
+                  {props.bookTitle}
+                </Heading>
+              </HStack>
+
+              <Text>{props.bookGenre}</Text>
+            </ModalHeader>
+            <ModalBody>
+              <Slider>
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb />
+              </Slider>
+
+              <Select
+                onChangeCapture={(e) => {
+                  updateBookData(e)
+                }}
+                placeholder="Select Status"
+                isRequired
+              >
+                <option value="reading">Reading</option>
+                <option value="want-to-read">Want to Read</option>
+                <option value="completed">Completed</option>
+              </Select>
+              <Checkbox>Add to Favourites</Checkbox>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                onClick={() => {
+                  onClose()
+                }}
+                colorScheme="blue"
+              >
+                Save
+              </Button>
+              <Button colorScheme="red" onClick={(e) => deleteBook(e)}>
+                Delete
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
         <Box rounded={'lg'} mt={-12} pos={'relative'} height={'230px'}>
           <Image
             rounded={'lg'}
             height={230}
             width={282}
             objectFit={'cover'}
-            src={IMAGE}
+            src="http://books.google.com/books/content?id=xVeMCgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
             alt="coverbook"
           />
         </Box>
@@ -54,16 +121,16 @@ export default function BookCard(props) {
           </Heading>
           <Stack direction={'row'} align={'center'}>
             <Text fontWeight={800} fontSize={'xl'}>
-              {badges}
+              {/* {badges} */}
             </Text>
           </Stack>
-          <Button
+          {/* <Button
             variant={isFav ? 'solid' : 'outline'}
             colorScheme={isFav ? 'blackAlpha' : 'red'}
             onClick={() => setFav(!isFav)}
           >
             {isFav ? 'Add to Favourite' : 'Remove from Favourite'}
-          </Button>
+          </Button> */}
         </Stack>
       </Box>
     </Center>

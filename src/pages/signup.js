@@ -121,7 +121,9 @@ function SignUp() {
                 _hover={{
                   bg: 'blue.500',
                 }}
-                onClick={() => createUserWithEmailAndPassword(email, password)}
+                onClick={() => {
+                  createUserWithEmailAndPassword(email, password)
+                }}
               >
                 Sign up
               </Button>

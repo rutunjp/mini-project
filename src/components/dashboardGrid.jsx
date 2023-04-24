@@ -1,15 +1,35 @@
-import { Box, Grid, Heading } from '@chakra-ui/react'
+import {
+  Box,
+  Grid,
+  Heading,
+  Tabs,
+  Tab,
+  TabPanel,
+  UnorderedList,
+  TabList,
+  ListItem,
+  TabPanels,
+} from '@chakra-ui/react'
 import BookCard from './bookCard'
-import { collection, getDocs } from 'firebase/firestore'
-import axios from 'axios'
+import { collection, getDocs, query } from 'firebase/firestore'
 import { useState, useEffect } from 'react'
-import { db } from '../../firebase-config'
-// import { Carousel } from 'react-responsive-carousel'
-// import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import { auth, db } from '../../firebase-config'
+var bookArray
+
 export default function DashboardGrid() {
+  const user = auth.currentUser
+
   const booksCollectionRef = collection(db, 'books')
+  const userCollectionRef = collection(db, 'users')
+  const userDocs = getDocs(userCollectionRef)
+  console.log('USERDOCS:', userDocs)
+
   const [books, setBooks] = useState([])
-  Carousel(books)
+  const [completed, setCompleted] = useState([])
+  const [favourites, setFavourites] = useState([])
+  const [reading, setReading] = useState([])
+  const [wantToRead, setWantToRead] = useState([])
+  const [allBooks, setAllBooks] = useState([])
   useEffect(() => {
     async function getBooks() {
       const data = await getDocs(booksCollectionRef)
@@ -18,7 +38,71 @@ export default function DashboardGrid() {
     }
     getBooks()
   }, [])
-  const bookCards = books.map((book) => (
+  async function checkUserNew(userCollectionRef) {
+    const docsSnap = await getDocs(userCollectionRef)
+    docsSnap.forEach((doc) => {
+      console.log('USERSDOCS:', doc.data())
+      setFavourites(doc.data().favourites)
+      setAllBooks(doc.data().allBooks)
+      setWantToRead(doc.data().wantToRead)
+      setCompleted(doc.data().completed)
+      setReading(doc.data().reading)
+    })
+  }
+
+  checkUserNew(userCollectionRef)
+  const bookCards = books.map((book) => {
+    if (book.title != '') {
+      return (
+        <BookCard
+          title={book.title}
+          author={book.author}
+          genre={book.genre}
+          key={book.isbn}
+        />
+      )
+    }
+  })
+
+  const wantToReadCards = wantToRead.map((book) => {
+    if (book.title != 'undefined') {
+      return (
+        <BookCard
+          title={book.title}
+          author={book.author}
+          genre={book.genre}
+          key={book.isbn}
+        />
+      )
+    } else if (book.title == 'undefined') {
+      return <p key={1}>Add New Books!</p>
+    }
+  })
+  const allBooksCards = allBooks.map((book) => (
+    <BookCard
+      title={book.title}
+      author={book.author}
+      genre={book.genre}
+      key={book.isbn}
+    />
+  ))
+  const completedCards = completed.map((book) => (
+    <BookCard
+      title={book.title}
+      author={book.author}
+      genre={book.genre}
+      key={book.isbn}
+    />
+  ))
+  const readingCards = reading.map((book) => (
+    <BookCard
+      title={book.title}
+      author={book.author}
+      genre={book.genre}
+      key={book.isbn}
+    />
+  ))
+  const favouritesCards = favourites.map((book) => (
     <BookCard
       title={book.title}
       author={book.author}
@@ -29,103 +113,19 @@ export default function DashboardGrid() {
 
   return (
     <Box p={6}>
-      <Heading>Your Dashboard</Heading>
-      <Carousel>{bookCards}</Carousel>
-    </Box>
-  )
-}
+      <Heading>Reading</Heading>
+      <Grid templateColumns="repeat(5, 1fr)">{bookCards}</Grid>
+      <Heading>All Books</Heading>
+      <Grid templateColumns="repeat(5, 1fr)">{bookCards}</Grid>
+      <Heading>Completed</Heading>
+      <Grid templateColumns="repeat(5, 1fr)">{completedCards}</Grid>
 
-import React from 'react'
-import { IconButton, useBreakpointValue } from '@chakra-ui/react'
-import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi'
-import Slider from 'react-slick'
-
-const settings = {
-  dots: true,
-  arrows: false,
-  fade: true,
-  infinite: true,
-  autoplay: true,
-  speed: 500,
-  autoplaySpeed: 5000,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-}
-
-function Carousel(bookArray) {
-  // As we have used custom buttons, we need a reference variable to
-  // change the state
-  const [slider, setSlider] = (React.useState < Slider) | (null > null)
-
-  // These are the breakpoints which changes the position of the
-  // buttons as the screen size changes
-  const top = useBreakpointValue({ base: '90%', md: '50%' })
-  const side = useBreakpointValue({ base: '30%', md: '10px' })
-
-  // These are the images used in the slide
-  const cards = books
-
-  return (
-    <Box
-      position={'relative'}
-      height={'600px'}
-      width={'full'}
-      overflow={'hidden'}
-    >
-      {/* CSS files for react-slick */}
-      <link
-        rel="stylesheet"
-        type="text/css"
-        charSet="UTF-8"
-        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
-      />
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
-      />
-      {/* Left Icon */}
-      <IconButton
-        aria-label="left-arrow"
-        colorScheme="messenger"
-        borderRadius="full"
-        position="absolute"
-        left={side}
-        top={top}
-        transform={'translate(0%, -50%)'}
-        zIndex={2}
-        onClick={() => slider?.slickPrev()}
-      >
-        <BiLeftArrowAlt />
-      </IconButton>
-      {/* Right Icon */}
-      <IconButton
-        aria-label="right-arrow"
-        colorScheme="messenger"
-        borderRadius="full"
-        position="absolute"
-        right={side}
-        top={top}
-        transform={'translate(0%, -50%)'}
-        zIndex={2}
-        onClick={() => slider?.slickNext()}
-      >
-        <BiRightArrowAlt />
-      </IconButton>
-      {/* Slider */}
-      <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {cards.map((url, index) => (
-          <Box
-            key={index}
-            height={'6xl'}
-            position="relative"
-            backgroundPosition="center"
-            backgroundRepeat="no-repeat"
-            backgroundSize="cover"
-            backgroundImage={`url(${url})`}
-          />
-        ))}
-      </Slider>
+      <Heading>Want To Read</Heading>
+      <Grid templateColumns="repeat(5, 1fr)">{wantToReadCards}</Grid>
+      <Heading>Favourites</Heading>
+      <Grid templateColumns="repeat(5, 1fr)">{favouritesCards}</Grid>
+      <Heading>All Books</Heading>
+      <Grid templateColumns="repeat(4, 1fr)">{bookCards}</Grid>
     </Box>
   )
 }
