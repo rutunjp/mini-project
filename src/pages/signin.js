@@ -49,7 +49,7 @@ export default function SignIn() {
       align={'center'}
       justify={'center'}
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      bg={('gray.50', 'gray.800')}
+      bg={'gray.50'}
     >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
