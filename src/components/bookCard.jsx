@@ -9,6 +9,7 @@ import {
   ModalOverlay,
   Slider,
   SliderTrack,
+  Input,
   SliderFilledTrack,
   ModalContent,
   ModalHeader,
@@ -22,22 +23,88 @@ import {
   Checkbox,
   Button,
   HStack,
-  Image,
+  useToast,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { db } from '../../firebase-config'
+import Image from 'next/image'
+import {
+  query,
+  getDocs,
+  doc,
+  where,
+  updateDoc,
+  setDoc,
+  arrayUnion,
+  arrayRemove,
+  collection,
+  getDoc,
+  deleteDoc,
+} from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
+import { auth } from '../../firebase-config'
 
 const IMAGE =
   'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80'
 
 export default function BookCard(props) {
-  const [isFav, setFav] = useState(false)
-  // const badges = props.genre.map((genre) => (
-  //   <Badge m={1} key={genre} fontWeight={'normal'}>
-  //     {' '}
-  //     {genre}
-  //   </Badge>
-  // ))
-  function updateBookData(e) {}
+  const auth = getAuth()
+  const [isFav, toggleIsFav] = useState(false)
+  const isLibraryStore = props.isLibraryStore
+  const toast = useToast()
+
+  const userDoc = doc(db, 'users', auth.currentUser.uid)
+  useEffect(() => {
+    if (isFav) {
+      addFav()
+    }
+  }, [isFav])
+
+  async function addFav() {
+    await updateDoc(userDoc, {
+      favourites: arrayUnion(props.title),
+    })
+  }
+  async function addBook() {
+    await updateDoc(userDoc, {
+      allBooks: arrayUnion(props.title),
+    })
+    {
+      toast({
+        title: 'Book added',
+        description: `${props.title} has been added to Dashboard`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+  }
+  async function deleteBook() {
+    await updateDoc(userDoc, {
+      allBooks: arrayRemove(props.title),
+      favourites: arrayRemove(props.title),
+      wantToRead: arrayRemove(props.title),
+      completed: arrayRemove(props.title),
+      reading: arrayRemove(props.title),
+    })
+  }
+
+  async function updateBookData(category) {
+    if (category == 'completed') {
+      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+        completed: arrayUnion(props.title),
+      })
+    } else if (category == 'wantToRead') {
+      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+        wantToRead: arrayUnion(props.title),
+      })
+    } else if (category == 'reading') {
+      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+        reading: arrayUnion(props.title),
+      })
+    }
+  }
+
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <Center py={12}>
@@ -53,62 +120,74 @@ export default function BookCard(props) {
         zIndex={1}
         onClick={onOpen}
       >
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>
-              <HStack align={'space-between'}>
-                <Heading as="h3" size="md">
-                  {props.bookTitle}
-                </Heading>
-              </HStack>
+        {isLibraryStore ? (
+          <></>
+        ) : (
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>
+                <HStack align={'space-between'}>
+                  <Heading as="h3" size="md">
+                    {props.title}
+                  </Heading>
+                </HStack>
 
-              <Text>{props.bookGenre}</Text>
-            </ModalHeader>
-            <ModalBody>
-              <Slider>
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
-                <SliderThumb />
-              </Slider>
+                <Text>{props.genre}</Text>
+              </ModalHeader>
+              <ModalBody>
+                <HStack>
+                  <Input
+                    type={'number'}
+                    size={'sm'}
+                    w={'8ch'}
+                    value={props.progress}
+                  />
+                  <Text>of 266</Text>
+                </HStack>
+                <Select
+                  value={props.status}
+                  onChangeCapture={(e) => {
+                    updateBookData(e.target.value)
+                  }}
+                  placeholder="Select Status"
+                  isRequired
+                >
+                  <option value="reading">Reading</option>
+                  <option value="wantToRead">Want to Read</option>
+                  <option value="completed">Completed</option>
+                </Select>
+                <Checkbox
+                  isChecked={isFav}
+                  onChange={() => toggleIsFav(!isFav)}
+                >
+                  Add to Favourites
+                </Checkbox>
+              </ModalBody>
 
-              <Select
-                onChangeCapture={(e) => {
-                  updateBookData(e)
-                }}
-                placeholder="Select Status"
-                isRequired
-              >
-                <option value="reading">Reading</option>
-                <option value="want-to-read">Want to Read</option>
-                <option value="completed">Completed</option>
-              </Select>
-              <Checkbox>Add to Favourites</Checkbox>
-            </ModalBody>
-
-            <ModalFooter>
-              <Button
-                onClick={() => {
-                  onClose()
-                }}
-                colorScheme="blue"
-              >
-                Save
-              </Button>
-              <Button colorScheme="red" onClick={(e) => deleteBook(e)}>
-                Delete
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+              <ModalFooter>
+                <Button
+                  onClick={() => {
+                    onClose()
+                  }}
+                  colorScheme="blue"
+                >
+                  Save
+                </Button>
+                <Button colorScheme="red" onClick={(e) => deleteBook(e)}>
+                  Delete
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        )}
         <Box rounded={'lg'} mt={-12} pos={'relative'} height={'230px'}>
           <Image
             rounded={'lg'}
             height={230}
             width={282}
             objectFit={'cover'}
-            src="http://books.google.com/books/content?id=xVeMCgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+            src={props.imageLink}
             alt="coverbook"
           />
         </Box>
@@ -119,18 +198,19 @@ export default function BookCard(props) {
           <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
             {props.title}
           </Heading>
-          <Stack direction={'row'} align={'center'}>
+          <Stack direction={'col'} align={'center'}>
+            {isLibraryStore ? (
+              <Button colorScheme="blue" onClick={addBook}>
+                Add to Dashboard
+              </Button>
+            ) : (
+              <></>
+            )}
+
             <Text fontWeight={800} fontSize={'xl'}>
               {/* {badges} */}
             </Text>
           </Stack>
-          {/* <Button
-            variant={isFav ? 'solid' : 'outline'}
-            colorScheme={isFav ? 'blackAlpha' : 'red'}
-            onClick={() => setFav(!isFav)}
-          >
-            {isFav ? 'Add to Favourite' : 'Remove from Favourite'}
-          </Button> */}
         </Stack>
       </Box>
     </Center>

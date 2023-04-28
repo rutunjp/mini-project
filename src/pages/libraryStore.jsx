@@ -1,11 +1,10 @@
-import { Box, Grid, Heading } from '@chakra-ui/react'
+import { Box, Grid, Heading, Button } from '@chakra-ui/react'
 import BookCard from '../components/bookCard'
 import { collection, getDocs } from 'firebase/firestore'
 import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config'
 import Navbar from '@/components/navBar'
-
-var bookArray
+import UserAuthContext from '@/context/userAuthContext'
 
 export default function LibraryStore() {
   const booksCollectionRef = collection(db, 'books')
@@ -25,6 +24,7 @@ export default function LibraryStore() {
       genre={book.genre}
       key={book.isbn}
       src={book.imgSrc}
+      isLibraryStore={true}
     />
   ))
   return (
@@ -32,10 +32,7 @@ export default function LibraryStore() {
       <Navbar />
       <Box p={6} maxW="80vw" m="auto">
         <Heading>Library Store</Heading>
-        <Grid templateColumns="repeat(3, 1fr) ">
-          {bookCards}
-          {bookCards}
-        </Grid>
+        <Grid templateColumns="repeat(3, 1fr) ">{bookCards}</Grid>
       </Box>
     </Box>
   )

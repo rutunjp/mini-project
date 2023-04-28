@@ -16,43 +16,63 @@ import {
   Link,
   ChakraProvider,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { auth } from '../../firebase-config'
 import { useRouter } from 'next/router'
-
+import { db } from '../../firebase-config'
+import UserAuthContext, { useAuth } from '@/context/userAuthContext'
 function SignUp() {
-  const [showPassword, setShowPassword] = useState(false)
+  const { error, SignUp, currentUser } = useAuth()
+  const [err, setError] = useState('')
+  const [backError, setBackError] = useState('')
+  const [user, setUser] = useState({
+    userName: '',
+    email: '',
+    password: '',
+  })
+  useEffect(() => {
+    console.log('I am IN')
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+    if (error) {
+      setInterval(() => {
+        setBackError('')
+      }, 5000)
+      setBackError(error)
+    }
+  }, [error, currentUser])
 
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth)
-  const router = useRouter()
+  const userHandler = (e) => {
+    const { name, value } = e.target
 
-  const toast = useToast()
+    console.log(name, ':', value)
+    setUser((pre) => {
+      return {
+        ...pre,
+        [name]: value,
+      }
+    })
+  }
 
-  if (error) {
-    if (
-      error == 'FirebaseError: Firebase: Error (auth/email-already-in-use).'
-    ) {
-      isAlreadyToast
+  const SubmitHandler = async (e) => {
+    e.preventDefault()
+    const { email, password, userName } = user
+    if (password == '' || userName == '' || email == '') {
+      console.error('No fields should be left empty')
     } else {
-      return (
-        <div>
-          <p>Error: {error.message}</p>
-        </div>
-      )
+      SignUp(email, password, userName)
+      {
+        currentUser &&
+          setUser({
+            email: '',
+            password: '',
+            userName: '',
+          })
+      }
     }
   }
-  if (loading) {
-    return <p>Loading...</p>
-  }
-  if (user) {
-    router.push('/')
-  }
+
   return (
     <Flex
       minH={'100vh'}
@@ -80,7 +100,12 @@ function SignUp() {
               <Box>
                 <FormControl id="displayName">
                   <FormLabel>Display Name</FormLabel>
-                  <Input type="text" />
+                  <Input
+                    type="text"
+                    value={user.userName}
+                    name="userName"
+                    onChange={userHandler}
+                  />
                 </FormControl>
               </Box>
             </HStack>
@@ -88,26 +113,22 @@ function SignUp() {
               <FormLabel>Email address</FormLabel>
               <Input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={user.email}
+                name="email"
+                onChange={userHandler}
               />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={user.password}
+                  name="password"
+                  onChange={userHandler}
                 />
                 <InputRightElement h={'full'}>
-                  <Button
-                    variant={'ghost'}
-                    onClick={() =>
-                      setShowPassword((showPassword) => !showPassword)
-                    }
-                  >
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  <Button variant={'ghost'}>
+                    {/* {showPassword ? <ViewIcon /> : <ViewOffIcon />} */}
                   </Button>
                 </InputRightElement>
               </InputGroup>
@@ -121,8 +142,8 @@ function SignUp() {
                 _hover={{
                   bg: 'blue.500',
                 }}
-                onClick={() => {
-                  createUserWithEmailAndPassword(email, password)
+                onClick={(e) => {
+                  SubmitHandler(e)
                 }}
               >
                 Sign up
@@ -131,9 +152,9 @@ function SignUp() {
             <Stack pt={6}>
               <Text align={'center'}>
                 Already a user?{' '}
-                <Link href="/signin" color={'blue.400'}>
+                {/* <Link href="/signin" color={'blue.400'}>
                   Login
-                </Link>
+                </Link> */}
               </Text>
             </Stack>
           </Stack>

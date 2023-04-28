@@ -29,19 +29,19 @@ export default function SignIn() {
   function signinErrorToast() {
     toastIdRef.current = toast({
       description: 'Login Error',
-      duration: 9000,
+      duration: 3000,
       status: 'error',
       isClosable: true,
     })
   }
   if (error) {
-    signinErrorToast()
+    // signinErrorToast()
   }
   if (loading) {
     return <p>Loading...</p>
   }
   if (user) {
-    router.push('/')
+    router.push('/dashboard')
   }
 
   return (
