@@ -6,7 +6,6 @@ import {
   Heading,
   Input,
   Stack,
-  useColorModeValue,
   HStack,
   Avatar,
   Modal,
@@ -46,13 +45,13 @@ export default function UserProfileEdit() {
         minH={'100vh'}
         align={'center'}
         justify={'center'}
-        bg={useColorModeValue('gray.50', 'gray.800')}
+        bg={('gray.50')}
       >
         <Stack
           spacing={4}
           w={'full'}
           maxW={'md'}
-          bg={useColorModeValue('white', 'gray.700')}
+          bg={('white')}
           rounded={'xl'}
           boxShadow={'lg'}
           p={6}

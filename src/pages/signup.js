@@ -12,7 +12,6 @@ import {
   useToast,
   Heading,
   Text,
-  useColorModeValue,
   Link,
   ChakraProvider,
 } from '@chakra-ui/react'
@@ -79,7 +78,7 @@ function SignUp() {
         minH={'100vh'}
         align={'center'}
         justify={'center'}
-        bg={useColorModeValue('gray.50', 'gray.800')}
+        bg={('gray.50')}
       >
         <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
           <Stack align={'center'}>
@@ -92,7 +91,7 @@ function SignUp() {
           </Stack>
           <Box
             rounded={'lg'}
-            bg={useColorModeValue('white', 'gray.700')}
+            bg={('white')}
             boxShadow={'lg'}
             p={8}
           >

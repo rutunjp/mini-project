@@ -1,7 +1,6 @@
 import {
   Box,
   Center,
-  useColorModeValue,
   Heading,
   Badge,
   Text,
@@ -113,7 +112,7 @@ export default function BookCard(props) {
         p={6}
         maxW={'330px'}
         w={'full'}
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={ 'gray.800'}
         boxShadow={'md'}
         rounded={'lg'}
         pos={'relative'}
