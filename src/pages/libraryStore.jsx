@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config'
 import Navbar from '@/components/navBar'
 import UserAuthContext from '@/context/userAuthContext'
-import Reader from './reader'
 
 export default function LibraryStore() {
   const booksCollectionRef = collection(db, 'books')

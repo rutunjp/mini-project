@@ -18,7 +18,7 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton, 
+  ModalCloseButton,
   PopoverContent,
   Avatar,
   MenuDivider,
