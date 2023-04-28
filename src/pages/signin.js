@@ -10,7 +10,6 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
 import { useState, useRef } from 'react'
@@ -50,7 +49,7 @@ export default function SignIn() {
       align={'center'}
       justify={'center'}
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      bg={useColorModeValue('gray.50', 'gray.800')}
+      bg={('gray.50', 'gray.800')}
     >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
@@ -59,12 +58,7 @@ export default function SignIn() {
             to enjoy all of our cool <Link color={'blue.400'}>features</Link> ✌️
           </Text>
         </Stack>
-        <Box
-          rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
-          p={8}
-        >
+        <Box rounded={'lg'} bg={('white', 'gray.700')} boxShadow={'lg'} p={8}>
           <Stack spacing={4}>
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
@@ -99,6 +93,14 @@ export default function SignIn() {
               >
                 Sign in
               </Button>
+              <Stack>
+                <Text align={'center'}>
+                  New user?{' '}
+                  <Link href="/signup" color={'blue.400'}>
+                    Sign Up
+                  </Link>
+                </Text>
+              </Stack>
             </Stack>
           </Stack>
         </Box>

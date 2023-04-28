@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config'
 import Navbar from '@/components/navBar'
 import UserAuthContext from '@/context/userAuthContext'
+import Reader from './reader'
 
 export default function LibraryStore() {
   const booksCollectionRef = collection(db, 'books')
@@ -31,7 +32,7 @@ export default function LibraryStore() {
     <Box>
       <Navbar />
       <Box p={6} maxW="80vw" m="auto">
-        <Heading>Library Store</Heading>
+        <Heading>Library Store</Heading> 
         <Grid templateColumns="repeat(3, 1fr) ">{bookCards}</Grid>
       </Box>
     </Box>

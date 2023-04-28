@@ -27,8 +27,8 @@ const UserAuthContext = ({ children }) => {
         setUser(user)
         // console.log('You are logging in')
       } else {
-        // alert('You are logging out')
-        // router.push('/signin')
+        alert('You are logging out')
+        router.push('/signin')
       }
     })
   }, [])
@@ -51,7 +51,7 @@ const UserAuthContext = ({ children }) => {
           })
 
           alert('Welcome new user created Succesfully')
-          router.push('/dashboard') 
+          router.push('/dashboard')
         } catch (e) {
           console.error('Error Adding document: ', e)
         }

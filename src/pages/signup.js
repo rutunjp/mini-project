@@ -74,93 +74,95 @@ function SignUp() {
   }
 
   return (
-    <Flex
-      minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}
-    >
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
-          <Heading fontSize={'4xl'} textAlign={'center'}>
-            Sign up
-          </Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
-            to enjoy all of our cool features ✌️
-          </Text>
-        </Stack>
-        <Box
-          rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
-          p={8}
-        >
-          <Stack spacing={4}>
-            <HStack>
-              <Box>
-                <FormControl id="displayName">
-                  <FormLabel>Display Name</FormLabel>
-                  <Input
-                    type="text"
-                    value={user.userName}
-                    name="userName"
-                    onChange={userHandler}
-                  />
-                </FormControl>
-              </Box>
-            </HStack>
-            <FormControl id="email" isRequired>
-              <FormLabel>Email address</FormLabel>
-              <Input
-                type="email"
-                value={user.email}
-                name="email"
-                onChange={userHandler}
-              />
-            </FormControl>
-            <FormControl id="password" isRequired>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
+    <UserAuthContext>
+      <Flex
+        minH={'100vh'}
+        align={'center'}
+        justify={'center'}
+        bg={useColorModeValue('gray.50', 'gray.800')}
+      >
+        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+          <Stack align={'center'}>
+            <Heading fontSize={'4xl'} textAlign={'center'}>
+              Sign up
+            </Heading>
+            <Text fontSize={'lg'} color={'gray.600'}>
+              to enjoy all of our cool features ✌️
+            </Text>
+          </Stack>
+          <Box
+            rounded={'lg'}
+            bg={useColorModeValue('white', 'gray.700')}
+            boxShadow={'lg'}
+            p={8}
+          >
+            <Stack spacing={4}>
+              <HStack>
+                <Box>
+                  <FormControl id="displayName">
+                    <FormLabel>Display Name</FormLabel>
+                    <Input
+                      type="text"
+                      value={user.userName}
+                      name="userName"
+                      onChange={userHandler}
+                    />
+                  </FormControl>
+                </Box>
+              </HStack>
+              <FormControl id="email" isRequired>
+                <FormLabel>Email address</FormLabel>
                 <Input
-                  value={user.password}
-                  name="password"
+                  type="email"
+                  value={user.email}
+                  name="email"
                   onChange={userHandler}
                 />
-                <InputRightElement h={'full'}>
-                  <Button variant={'ghost'}>
-                    {/* {showPassword ? <ViewIcon /> : <ViewOffIcon />} */}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            <Stack spacing={10} pt={2}>
-              <Button
-                loadingText="Submitting"
-                size="lg"
-                bg={'blue.400'}
-                color={'white'}
-                _hover={{
-                  bg: 'blue.500',
-                }}
-                onClick={(e) => {
-                  SubmitHandler(e)
-                }}
-              >
-                Sign up
-              </Button>
+              </FormControl>
+              <FormControl id="password" isRequired>
+                <FormLabel>Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    value={user.password}
+                    name="password"
+                    onChange={userHandler}
+                  />
+                  <InputRightElement h={'full'}>
+                    <Button variant={'ghost'}>
+                      {/* {showPassword ? <ViewIcon /> : <ViewOffIcon />} */}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+              <Stack spacing={10} pt={2}>
+                <Button
+                  loadingText="Submitting"
+                  size="lg"
+                  bg={'blue.400'}
+                  color={'white'}
+                  _hover={{
+                    bg: 'blue.500',
+                  }}
+                  onClick={(e) => {
+                    SubmitHandler(e)
+                  }}
+                >
+                  Sign up
+                </Button>
+              </Stack>
+              <Stack pt={6}>
+                <Text align={'center'}>
+                  Already a user?{' '}
+                  <Link href="/signin" color={'blue.400'}>
+                    Login
+                  </Link>
+                </Text>
+              </Stack>
             </Stack>
-            <Stack pt={6}>
-              <Text align={'center'}>
-                Already a user?{' '}
-                {/* <Link href="/signin" color={'blue.400'}>
-                  Login
-                </Link> */}
-              </Text>
-            </Stack>
-          </Stack>
-        </Box>
-      </Stack>
-    </Flex>
+          </Box>
+        </Stack>
+      </Flex>
+    </UserAuthContext>
   )
 }
 export default SignUp
