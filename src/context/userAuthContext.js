@@ -27,8 +27,8 @@ const UserAuthContext = ({ children }) => {
         setUser(user)
         // console.log('You are logging in')
       } else {
-        alert('You are logging out')
-        router.push('/signin')
+        // alert('You are logging out')
+        // router.push('/signin')
       }
     })
   }, [])
@@ -43,6 +43,7 @@ const UserAuthContext = ({ children }) => {
           const docRef = await setDoc(ref, {
             userName,
             email,
+            notes: '',
             allBooks: [],
             favourites: [],
             wantToRead: [],

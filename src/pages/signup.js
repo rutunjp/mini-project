@@ -23,6 +23,7 @@ import { useRouter } from 'next/router'
 import { db } from '../../firebase-config'
 import UserAuthContext, { useAuth } from '@/context/userAuthContext'
 function SignUp() {
+  const router = useRouter()
   const { error, SignUp, currentUser } = useAuth()
   const [err, setError] = useState('')
   const [backError, setBackError] = useState('')
@@ -69,17 +70,13 @@ function SignUp() {
             userName: '',
           })
       }
+      router.push('/dashboard')
     }
   }
 
   return (
     <UserAuthContext>
-      <Flex
-        minH={'100vh'}
-        align={'center'}
-        justify={'center'}
-        bg={('gray.50')}
-      >
+      <Flex minH={'100vh'} align={'center'} justify={'center'} bg={'gray.50'}>
         <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
           <Stack align={'center'}>
             <Heading fontSize={'4xl'} textAlign={'center'}>
@@ -89,12 +86,7 @@ function SignUp() {
               to enjoy all of our cool features ✌️
             </Text>
           </Stack>
-          <Box
-            rounded={'lg'}
-            bg={('white')}
-            boxShadow={'lg'}
-            p={8}
-          >
+          <Box rounded={'lg'} bg={'white'} boxShadow={'lg'} p={8}>
             <Stack spacing={4}>
               <HStack>
                 <Box>

@@ -112,7 +112,7 @@ export default function BookCard(props) {
         p={6}
         maxW={'330px'}
         w={'full'}
-        bg={ 'gray.800'}
+        bg={'white'}
         boxShadow={'md'}
         rounded={'lg'}
         pos={'relative'}
@@ -142,7 +142,7 @@ export default function BookCard(props) {
                     w={'8ch'}
                     value={props.progress}
                   />
-                  <Text>of 266</Text>
+                  <Text>of {props.pageCount}</Text>
                 </HStack>
                 <Select
                   value={props.status}
@@ -183,10 +183,10 @@ export default function BookCard(props) {
         <Box rounded={'lg'} mt={-12} pos={'relative'} height={'230px'}>
           <Image
             rounded={'lg'}
-            height={230}
-            width={282}
+            height={150}
+            width={150}
             objectFit={'cover'}
-            src={props.imageLink}
+            src={props.imgSrc}
             alt="coverbook"
           />
         </Box>

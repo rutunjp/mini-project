@@ -44,12 +44,13 @@ export default function SignIn() {
   }
 
   return (
+    
     <Flex
       minH={'100vh'}
       align={'center'}
       justify={'center'}
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      bg={'gray.50'}
+      bg={'white'}
     >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
@@ -58,7 +59,7 @@ export default function SignIn() {
             to enjoy all of our cool <Link color={'blue.400'}>features</Link> ✌️
           </Text>
         </Stack>
-        <Box rounded={'lg'} bg={('white', 'gray.700')} boxShadow={'lg'} p={8}>
+        <Box rounded={'lg'} bg={'white'} boxShadow={'lg'} p={8}>
           <Stack spacing={4}>
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
@@ -96,7 +97,12 @@ export default function SignIn() {
               <Stack>
                 <Text align={'center'}>
                   New user?{' '}
-                  <Link href="/signup" color={'blue.400'}>
+                  <Link
+                    onClick={() => {
+                      router.push('/signup')
+                    }}
+                    color={'blue.400'}
+                  >
                     Sign Up
                   </Link>
                 </Text>
