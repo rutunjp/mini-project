@@ -9,6 +9,7 @@ import BookSearchModal from '@/components/bookSearchModal'
 
 export default function LibraryStore() {
   const booksCollectionRef = collection(db, 'books')
+
   const [books, setBooks] = useState([])
   useEffect(() => {
     async function getBooks() {
@@ -25,8 +26,8 @@ export default function LibraryStore() {
       genre={book.genre}
       key={book.isbn}
       pageCount={book.pageCount}
-      imgSrc={book.imageLink.thumbnail}
-      isLibraryStore={false}
+      src={book.imageLink.thumbnail}
+      isLibraryStore={true}
     />
   ))
   return (

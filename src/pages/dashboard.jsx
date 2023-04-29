@@ -39,7 +39,7 @@ export default function Dashboard() {
                   author={book.author}
                   genre={book.genre}
                   key={book.isbn}
-                  src={book.imgSrc}
+                  src={book.imageLink.thumbnail}
                   isLibraryStore={false}
                 />
               ))
@@ -72,7 +72,7 @@ export default function Dashboard() {
         <Navbar />
         <Box maxW={'80vw'} m="auto">
           <Heading>All Books</Heading>
-          <Grid templateColumns={'repeat(5  , 1fr)'}>
+          <Grid templateColumns={'repeat(5  , 1fr)'}  w={'max-content'}>
             {userAllBooks && userAllBooks.length ? (
               userAllBooks
             ) : (
@@ -80,7 +80,7 @@ export default function Dashboard() {
             )}
           </Grid>
           <Heading>Fav Books</Heading>
-          <Grid templateColumns={'repeat(5  , 1fr)'}>
+          <Grid templateColumns={'repeat(5  , 1fr)'}  w={'max-content'}>
             {userFavourites && userFavourites.length ? (
               userFavourites
             ) : (
@@ -88,7 +88,7 @@ export default function Dashboard() {
             )}
           </Grid>
           <Heading>Now Reading </Heading>
-          <Grid templateColumns={'repeat(5  , 1fr)'}>
+          <Grid templateColumns={'repeat(5  , 1fr)'}  w={'max-content'}>
             {userReading && userReading.length ? (
               userReading
             ) : (
@@ -96,7 +96,7 @@ export default function Dashboard() {
             )}
           </Grid>
           <Heading>Completed Books</Heading>
-          <Grid templateColumns={'repeat(5  , 1fr)'}>
+          <Grid templateColumns={'repeat(5  , 1fr)'}  w={'max-content'}>
             {userCompleted && userCompleted.length ? (
               userCompleted
             ) : (
@@ -104,7 +104,7 @@ export default function Dashboard() {
             )}
           </Grid>
           <Heading>Want To Read</Heading>
-          <Grid templateColumns={'repeat(5  , 1fr)'}>
+          <Grid templateColumns={'repeat(5  , 1fr)'}  w={'max-content'}>
             {userWantToRead && userWantToRead.length ? (
               userWantToRead
             ) : (

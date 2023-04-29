@@ -43,16 +43,18 @@ import {
 import { getAuth } from 'firebase/auth'
 import { auth } from '../../firebase-config'
 
-const IMAGE =
-  'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80'
-
 export default function BookCard(props) {
+  console.log('PROPS:', props)
   const auth = getAuth()
   const [isFav, toggleIsFav] = useState(false)
   const isLibraryStore = props.isLibraryStore
   const toast = useToast()
 
   const userDoc = doc(db, 'users', auth.currentUser.uid)
+  const bookDoc = doc(db, 'books', props.title)
+
+  const [sales, setSales] = useState(0)
+
   useEffect(() => {
     if (isFav) {
       addFav()
@@ -65,9 +67,13 @@ export default function BookCard(props) {
     })
   }
   async function addBook() {
+    await updateDoc(bookDoc, {
+      users: arrayUnion(auth.currentUser.uid),
+    })
     await updateDoc(userDoc, {
       allBooks: arrayUnion(props.title),
     })
+
     {
       toast({
         title: 'Book added',
@@ -167,6 +173,7 @@ export default function BookCard(props) {
               <ModalFooter>
                 <Button
                   onClick={() => {
+                    
                     onClose()
                   }}
                   colorScheme="blue"
@@ -186,7 +193,7 @@ export default function BookCard(props) {
             height={150}
             width={150}
             objectFit={'cover'}
-            src={props.imgSrc}
+            src={props.src}
             alt="coverbook"
           />
         </Box>

@@ -5,6 +5,8 @@ import {
   FormLabel,
   Input,
   Checkbox,
+  InputGroup,
+  InputRightElement,
   Stack,
   Link,
   Button,
@@ -16,8 +18,10 @@ import { useState, useRef } from 'react'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { auth } from '../../firebase-config'
 import { useRouter } from 'next/router'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 
 export default function SignIn() {
+  const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth)
@@ -34,7 +38,7 @@ export default function SignIn() {
     })
   }
   if (error) {
-    // signinErrorToast()
+    signinErrorToast()
   }
   if (loading) {
     return <p>Loading...</p>
@@ -44,7 +48,6 @@ export default function SignIn() {
   }
 
   return (
-    
     <Flex
       minH={'100vh'}
       align={'center'}
@@ -67,10 +70,22 @@ export default function SignIn() {
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <InputGroup>
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <InputRightElement h={'full'}>
+                  <Button
+                    variant={'ghost'}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }
+                  >
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
             <Stack spacing={10}>
               <Stack

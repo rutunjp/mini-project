@@ -18,7 +18,9 @@ export default function SearchResultCard(props) {
   async function newBook(props) {
     await setDoc(doc(db, 'books', props.title), {
       ...props,
+      users: [],
     })
+    
   }
   return (
     <ListItem>
@@ -39,6 +41,7 @@ export default function SearchResultCard(props) {
             <Button
               onClick={async () => {
                 await newBook(props)
+
               }}
             >
               <AiOutlinePlus />

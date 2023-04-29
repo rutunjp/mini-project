@@ -81,7 +81,7 @@ export default function Navbar() {
             fontFamily={'heading'}
             color={'gray.800'}
           >
-            Logo
+            📙🧑
           </Text>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>

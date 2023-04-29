@@ -27,6 +27,7 @@ import { useUpdateProfile, useUpdatePassword } from 'react-firebase-hooks/auth'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { auth } from '../../firebase-config'
+import Image from 'next/image'
 
 export default function UserProfileEdit() {
   const [displayName, setDisplayName] = useState('')
@@ -41,17 +42,12 @@ export default function UserProfileEdit() {
     return <p>Signed Out</p>
   } else if (auth.currentUser) {
     return (
-      <Flex
-        minH={'100vh'}
-        align={'center'}
-        justify={'center'}
-        bg={('gray.50')}
-      >
+      <Flex minH={'100vh'} align={'center'} justify={'center'} bg={'gray.50'}>
         <Stack
           spacing={4}
           w={'full'}
           maxW={'md'}
-          bg={('white')}
+          bg={'white'}
           rounded={'xl'}
           boxShadow={'lg'}
           p={6}
@@ -77,9 +73,9 @@ export default function UserProfileEdit() {
                       <ModalBody>
                         <Wrap>
                           <WrapItem>
-                            <Avatar
-                              size="xl"
-                              name="Prosper Otemuyiwa"
+                            <Image
+                              alt="userPhoto"
+                              size="xl" 
                               onClick={(e) => {
                                 setPhotoURL(e.target.src)
                               }}
